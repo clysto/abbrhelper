@@ -147,7 +147,7 @@ void MainWindow::change_matched(int index) {
     journal_info->show();
     abbr_input->hide();
   };
-  auto term2 = terms_model->get_term_item(term_index);
+  terms_model->dataChanged(terms_model->index(term_index, 1), terms_model->index(term_index, 1));
 };
 
 void MainWindow::change_abbr(const QString& abbr) {

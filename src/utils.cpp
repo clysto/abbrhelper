@@ -12,13 +12,21 @@ QList<TermItem> load_term_list(const QString& file_name) {
   }
   QTextStream in{&file};
   QList<TermItem> term_items;
+  QSet<QString> seen_names;
+
   while (!in.atEnd()) {
     auto line = in.readLine();
     auto parts = line.split("\t");
     if (parts.size() >= 2) {
-      term_items.append(TermItem(parts[0], parts[1]));
+      if (!seen_names.contains(parts[0])) {
+        term_items.append(TermItem(parts[0], parts[1]));
+        seen_names.insert(parts[0]);
+      }
     } else {
-      term_items.append(TermItem(parts[0]));
+      if (!seen_names.contains(parts[0])) {
+        term_items.append(TermItem(parts[0]));
+        seen_names.insert(parts[0]);
+      }
     }
   }
   return term_items;
